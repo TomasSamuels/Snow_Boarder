@@ -5,12 +5,17 @@ public class FinishLine : MonoBehaviour
 {
     [SerializeField] ParticleSystem finishEffect;
     [SerializeField] float reloadTime = 0.5f;
+
+    bool hasFinished = false;
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !hasFinished)
         {
+            hasFinished = true;
             finishEffect.Play();
-            Invoke("ReloadScene", reloadTime);
+            GetComponent<AudioSource>().Play();
+            Invoke(nameof(ReloadScene), reloadTime);
         }
     }
 
